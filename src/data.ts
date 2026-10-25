@@ -1,186 +1,210 @@
-/* Sample content for the Quick Reply prototype.
- *
- * NOTE: the Figma screens this is based on were too small to read, so all
- * text below is plausible generic support content written for this sample —
- * nothing here is copied from Figma. */
+// Data for the METTA FLOW — Quick Reply screen (transcribed from the
+// user's Figma export, see ~/workspace/metta-flow-ref/SPEC-quick-reply.md).
 
-export const QUICK_REPLY_CATEGORIES = [
-  'All',
-  'Greetings',
-  'Delivery',
-  'Payment',
-  'Closing',
-] as const
+// Images are imported (not served from public/) so Vite inlines them as
+// data URIs in the bundle — the deployed site stays a few text files, and
+// the GitHub snapshot push (UTF-8 only) can carry everything.
+import angelina from './assets/angelina.webp';
+import agent from './assets/agent.webp';
+import sophia from './assets/sophia.webp';
+import emma from './assets/emma.webp';
+import mila from './assets/mila.webp';
+import natalie from './assets/natalie.webp';
+import tom from './assets/tom.webp';
+import chris from './assets/chris.webp';
+import stackA from './assets/stack-a.webp';
+import stackB from './assets/stack-b.webp';
+import stackC from './assets/stack-c.webp';
+import stackD from './assets/stack-d.webp';
+import checkup from './assets/checkup.jpg';
+import wave from './assets/wave.png';
 
-export type QuickReplyCategory = (typeof QUICK_REPLY_CATEGORIES)[number]
+const ASSETS: Record<string, string> = {
+  'angelina.webp': angelina,
+  'agent.webp': agent,
+  'sophia.webp': sophia,
+  'emma.webp': emma,
+  'mila.webp': mila,
+  'natalie.webp': natalie,
+  'tom.webp': tom,
+  'chris.webp': chris,
+  'stack-a.webp': stackA,
+  'stack-b.webp': stackB,
+  'stack-c.webp': stackC,
+  'stack-d.webp': stackD,
+  'checkup.jpg': checkup,
+  'wave.png': wave,
+};
 
-export interface QuickReply {
-  id: string
-  title: string
-  category: Exclude<QuickReplyCategory, 'All'>
-  text: string
-}
+export const asset = (name: string) => ASSETS[name];
 
-export const QUICK_REPLIES: QuickReply[] = [
-  {
-    id: 'greet-welcome',
-    title: 'Welcome',
-    category: 'Greetings',
-    text: 'Hello! Thanks for reaching out. How can I help you today?',
-  },
-  {
-    id: 'greet-wait',
-    title: 'Please hold',
-    category: 'Greetings',
-    text: 'Thanks for your patience — I am checking that for you now and will be right back.',
-  },
-  {
-    id: 'greet-apology',
-    title: 'Apology for the wait',
-    category: 'Greetings',
-    text: 'I am very sorry for the wait. Let me look into this for you right away.',
-  },
-  {
-    id: 'delivery-status',
-    title: 'Delivery status',
-    category: 'Delivery',
-    text: 'Your order is on its way and should arrive within the estimated delivery window shown in your app.',
-  },
-  {
-    id: 'delivery-delay',
-    title: 'Delivery delayed',
-    category: 'Delivery',
-    text: 'I am sorry — your delivery is running a little late due to high demand in your area. We will update you as soon as the rider is nearby.',
-  },
-  {
-    id: 'delivery-address',
-    title: 'Confirm address',
-    category: 'Delivery',
-    text: 'Could you please confirm your delivery address and a phone number the rider can reach you on?',
-  },
-  {
-    id: 'payment-methods',
-    title: 'Payment methods',
-    category: 'Payment',
-    text: 'We accept cash on delivery, mobile banking, and card payment. You can change your payment method before the rider arrives.',
-  },
-  {
-    id: 'payment-refund',
-    title: 'Refund timing',
-    category: 'Payment',
-    text: 'Your refund has been processed. It should appear in your account within 3–5 working days, depending on your bank.',
-  },
-  {
-    id: 'payment-failed',
-    title: 'Payment failed',
-    category: 'Payment',
-    text: 'It looks like the payment did not go through. Please try again, or choose cash on delivery and we will keep your order ready.',
-  },
-  {
-    id: 'closing-thanks',
-    title: 'Thank you',
-    category: 'Closing',
-    text: 'Thank you for contacting us! If you need anything else, just send us a message here.',
-  },
-  {
-    id: 'closing-resolved',
-    title: 'Issue resolved',
-    category: 'Closing',
-    text: 'Glad we could sort that out for you. I will close this chat for now — feel free to reopen it anytime.',
-  },
-  {
-    id: 'closing-feedback',
-    title: 'Ask for feedback',
-    category: 'Closing',
-    text: 'Before you go, we would love to hear how we did today. Your feedback helps us serve you better.',
-  },
-]
+/** Background circle color behind each transparent portrait cutout. */
+export const AVATAR_BG: Record<string, string> = {
+  angelina: '#F39C4B',
+  agent: '#C9BFF2',
+  sophia: '#F5A8C9',
+  emma: '#63B77C',
+  mila: '#F5A8C9',
+  natalie: '#F2707A',
+  tom: '#EFC65C',
+  chris: '#F2707A',
+  'stack-a': '#F5A8C9',
+  'stack-b': '#4FB0A0',
+  'stack-c': '#7C9FD8',
+  'stack-d': '#EFC65C',
+};
+
+export type Platform = 'messenger' | 'instagram' | 'whatsapp';
 
 export interface Conversation {
-  id: string
-  customer: string
-  initials: string
-  avatarColor: 'neutral' | 'blue' | 'lime' | 'pink'
-  snippet: string
-  time: string
-  unread?: number
-  channel: string
+  id: string;
+  name: string;
+  img: string;
+  platform: Platform;
+  time: string;
+  preview: string;
+  agents: string[];
+  unread?: number;
 }
 
 export const CONVERSATIONS: Conversation[] = [
   {
-    id: 'c1',
-    customer: 'Aye Chan Moe',
-    initials: 'AC',
-    avatarColor: 'pink',
-    snippet: 'Hi, my order still has not arrived yet',
-    time: '09:41',
-    unread: 2,
-    channel: 'Messenger',
-  },
-  {
-    id: 'c2',
-    customer: 'Thura Zaw',
-    initials: 'TZ',
-    avatarColor: 'blue',
-    snippet: 'Can I pay by mobile banking?',
-    time: '09:12',
-    channel: 'Messenger',
-  },
-  {
-    id: 'c3',
-    customer: 'May Thazin',
-    initials: 'MT',
-    avatarColor: 'lime',
-    snippet: 'Thank you so much!',
-    time: '08:57',
-    channel: 'Viber',
-  },
-  {
-    id: 'c4',
-    customer: 'Ko Phyo',
-    initials: 'KP',
-    avatarColor: 'neutral',
-    snippet: 'The rider called me just now, all good',
-    time: 'Yesterday',
-    channel: 'Messenger',
-  },
-  {
-    id: 'c5',
-    customer: 'Su Myat Noe',
-    initials: 'SM',
-    avatarColor: 'pink',
-    snippet: 'Please change my delivery address',
-    time: 'Yesterday',
+    id: 'angelina',
+    name: 'Angelina Jolie',
+    img: 'angelina',
+    platform: 'messenger',
+    time: '2h',
+    preview: "Yes, that's correct.",
+    agents: ['agent', 'stack-a', 'stack-b'],
     unread: 1,
-    channel: 'Telegram',
   },
-]
+  {
+    id: 'sophia',
+    name: 'Sophia Turner',
+    img: 'sophia',
+    platform: 'messenger',
+    time: '1h 30m',
+    preview: 'Could you send an instruction for booking appointment ?',
+    agents: ['sophia', 'stack-b'],
+  },
+  {
+    id: 'emma',
+    name: 'Emma Watson',
+    img: 'emma',
+    platform: 'instagram',
+    time: '2h 15m',
+    preview: 'Please send me the invoice for the healthcare packages we ta…',
+    agents: ['chris', 'sophia', 'stack-d'],
+  },
+  {
+    id: 'mila',
+    name: 'Mila Kunis',
+    img: 'mila',
+    platform: 'messenger',
+    time: '45m',
+    preview: 'I would like to know about the Medical Check up packages',
+    agents: ['stack-c'],
+  },
+  {
+    id: 'natalie',
+    name: 'Natalie Portman',
+    img: 'natalie',
+    platform: 'whatsapp',
+    time: '30m',
+    preview: 'I would like book an appointment with Dr. Loris on Sunday',
+    agents: ['agent', 'stack-b'],
+  },
+  {
+    id: 'tom',
+    name: 'Tom Hiddleston',
+    img: 'tom',
+    platform: 'messenger',
+    time: '25m',
+    preview: 'I would like to know about the Medical Check up packages',
+    agents: ['natalie', 'stack-d', 'stack-b'],
+  },
+  {
+    id: 'chris',
+    name: 'Chris Hemsworth',
+    img: 'chris',
+    platform: 'instagram',
+    time: '45m',
+    preview: 'I would like to know about the',
+    agents: [],
+  },
+];
 
 export interface ChatMessage {
-  id: string
-  from: 'customer' | 'agent'
-  text: string
-  time: string
+  from: 'customer' | 'agent';
+  text: string;
+  fresh?: boolean;
 }
 
 export const INITIAL_MESSAGES: ChatMessage[] = [
+  { from: 'customer', text: "Hi, I'd like to book an appointment at your hospital, please." },
   {
-    id: 'm1',
-    from: 'customer',
-    text: 'Hi, my order still has not arrived yet. It says out for delivery since this morning.',
-    time: '09:38',
-  },
-  {
-    id: 'm2',
     from: 'agent',
-    text: 'Hello! I am sorry about that — let me check the delivery status for you right away.',
-    time: '09:39',
+    text: "Hello, welcome to Metta Flow Hospital's online support. How can I help you today?",
+  },
+  { from: 'customer', text: 'I want to book a check-up appointment.' },
+];
+
+export const TIMESTAMP = '01 Jun, 12:00 AM • Seen';
+
+export type ReplyCategory = 'Greetings' | 'Appointment' | 'Package';
+
+export interface TextReply {
+  kind: 'text';
+  id: string;
+  cat: ReplyCategory;
+  /** Display text (👋 is rendered as the wave image in the panel). */
+  text: string;
+  /** Text inserted into the composer on click. */
+  insert: string;
+}
+
+export interface PackageReply {
+  kind: 'package';
+  id: string;
+  cat: ReplyCategory;
+  title: string;
+  sub: string;
+  insert: string;
+}
+
+export type Reply = TextReply | PackageReply;
+
+export const CHIP_ORDER: ReplyCategory[] = ['Appointment', 'Greetings', 'Package'];
+
+export const REPLIES: Reply[] = [
+  {
+    kind: 'text',
+    id: 'greeting',
+    cat: 'Greetings',
+    text: 'Hello! 👋 Welcome to the International Patient Centre. How can I help you today?',
+    insert: 'Hello! 👋 Welcome to the International Patient Centre. How can I help you today?',
   },
   {
-    id: 'm3',
-    from: 'customer',
-    text: 'Thank you. The order number is #8412.',
-    time: '09:41',
+    kind: 'text',
+    id: 'schedule',
+    cat: 'Appointment',
+    text: 'Would you like to schedule a consultation with our specialist?',
+    insert: 'Would you like to schedule a consultation with our specialist?',
   },
-]
+  {
+    kind: 'package',
+    id: 'checkup',
+    cat: 'Package',
+    title: 'Medical Checkup Information',
+    sub: 'RM 8,000–15,000',
+    insert: 'Medical Checkup Information (RM 8,000–15,000)',
+  },
+  {
+    kind: 'text',
+    id: 'cancer',
+    cat: 'Package',
+    text: "We have several cancer care packages tailored to each stage. Most patients start with diagnostic scans and consultations before proceeding to therapy. I can share estimated costs if you'd like.",
+    insert:
+      "We have several cancer care packages tailored to each stage. Most patients start with diagnostic scans and consultations before proceeding to therapy. I can share estimated costs if you'd like.",
+  },
+];
