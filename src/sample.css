@@ -368,7 +368,8 @@ body {
 /* ------------------------------------------------------------------ chat */
 
 .mf-chat {
-  flex: 0 0 652px;
+  flex: 1 1 auto;
+  min-width: 0;
   margin-left: 12px;
   margin-bottom: 12px;
   background: #fff;
